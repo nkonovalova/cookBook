@@ -1,0 +1,17 @@
+.logo {
+    display: flex;
+    height: 100%;
+    align-items: baseline;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+.logo-header {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+}
+.logo-img {
+    height: 60px;
+    width: auto;
+}
