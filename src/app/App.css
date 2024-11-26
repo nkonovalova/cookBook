@@ -33,6 +33,7 @@ a {
 }
 a:hover {
   color: var(--secondary);
+  text-decoration: none;
 }
 @media screen and (min-width: 600px)  {
   h1 {
@@ -45,23 +46,29 @@ a:hover {
   }
 }
 
-
 .layout {
-  display: grid;
   height: 100vh;
-  grid-template-columns: 200px auto;
-  grid-template-rows: 80px auto;
-  grid-template-areas:
-  'header header'
-  'navigation content';
+}
+
+@media screen and (min-width: 600px)  {
+  .layout {
+    display: grid;
+    grid-template-columns: fit-content(0) auto;
+    grid-template-rows: 80px auto;
+    grid-template-areas:
+    'header header'
+    'navigation content';
+  }
 }
 
 .header {
   grid-area: header;
 }
 .navigation {
+  padding: 0 24px;
   grid-area: navigation;
 }
 .content {
+  padding: 0 24px;
   grid-area: content;
 }

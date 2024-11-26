@@ -1,9 +1,17 @@
-import './page-header.css';
-import Logo from "../logo";
-import {ROUTE_MAIN} from "../../router";
 import {Link} from "react-router";
 
-function PageHeader () {
+import Logo from "../logo";
+import {IconBars} from '../icons';
+
+import {ROUTE_MAIN} from "../../router";
+
+import './page-header.css';
+
+type PageHeaderT = {
+    onHamburgerClick: () => void;
+}
+
+function PageHeader ({ onHamburgerClick }: PageHeaderT) {
     return (
         <div className='page-header'>
             <Link
@@ -12,6 +20,13 @@ function PageHeader () {
             >
                 <Logo/>
             </Link>
+            <button
+                className='hamburger'
+                onClick={onHamburgerClick}>
+                <div className='hamburger-logo'>
+                    <IconBars/>
+                </div>
+            </button>
         </div>
     )
 }
