@@ -1,0 +1,26 @@
+.layout {
+  height: 100vh;
+}
+
+@media screen and (min-width: 600px)  {
+  .layout {
+    display: grid;
+    grid-template-columns: fit-content(0) auto;
+    grid-template-rows: 80px auto;
+    grid-template-areas:
+    'header header'
+    'navigation content';
+  }
+}
+
+.header {
+  grid-area: header;
+}
+.navigation {
+  padding: 0 24px;
+  grid-area: navigation;
+}
+.content {
+  padding: 0 24px;
+  grid-area: content;
+}
