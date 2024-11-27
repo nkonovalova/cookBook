@@ -3,7 +3,7 @@ import Fork from "./assets/fork.svg";
 import Book from "./assets/book.svg";
 import Pizza from "./assets/pizza.svg";
 import AddNew from "./assets/addNew.svg";
-import Extend from "./assets/extend.svg";
+import Extend from "./assets/doubleChevron.svg";
 import './icons.css';
 
 function IconBars() {

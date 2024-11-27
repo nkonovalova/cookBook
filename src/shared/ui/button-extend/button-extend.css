@@ -1,0 +1,18 @@
+.button-extend {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    opacity: 1;
+}
+.button-extend:hover {
+    opacity: 0.4;
+}
+.icon-extend {
+    transform: rotate(0);
+    transition: transform var(--menu-extend-time);
+}
+.is-extend {
+    transform: rotate(180deg);
+}
