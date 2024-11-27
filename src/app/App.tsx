@@ -7,7 +7,7 @@ import ErrorPage from "../pages/error-page";
 import ShowRecipe from "../pages/show-recipe";
 
 import '../shared/ui/variables.css';
-import './App.css'
+import styles from './App.module.css'
 
 import PageHeader from "../shared/ui/page-header";
 import Nav from "../widgets/nav";
@@ -21,14 +21,14 @@ function App() {
     }
     return (
         <BrowserRouter>
-            <main className='layout'>
-                <section className='header'>
+            <main className={styles.layout}>
+                <section className={styles.header}>
                     <PageHeader onHamburgerClick={ switchMenu } />
                 </section>
-                <section className='navigation'>
+                <section className={styles.navigation}>
                     <Nav isShow={showMenu} />
                 </section>
-                <section className='content'>
+                <section className={styles.content}>
                     <Routes>
                         <Route index element={<RecipeList/>} errorElement={<ErrorPage/>}/>
                         <Route path={ROUTE_RECIPE} element={<ShowRecipe/>} />
