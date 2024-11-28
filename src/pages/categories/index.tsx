@@ -5,7 +5,7 @@ import Input from "../../shared/ui/input";
 function Categories() {
 
     return (
-        <PageWrapper header='Категории'>
+        <PageWrapper header='Категории' isLoading={true}>
             <form>
                 <ul>
                     <li>

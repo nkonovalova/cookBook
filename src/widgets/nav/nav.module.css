@@ -9,7 +9,7 @@
     background: var(--body-light-background);
     transition: top 0.4s;
     border-bottom: 2px solid var(--secondary);
-    z-index: 1;
+    z-index: 2;
 }
 @media screen and (min-width: 600px){
     .nav {
