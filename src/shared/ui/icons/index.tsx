@@ -4,6 +4,8 @@ import Book from "./assets/book.svg";
 import Pizza from "./assets/pizza.svg";
 import AddNew from "./assets/addNew.svg";
 import Extend from "./assets/doubleChevron.svg";
+import Exclamation from './assets/exclamationMark.svg';
+import Approve from './assets/approve.svg';
 import './icons.css';
 
 function IconBars() {
@@ -36,11 +38,25 @@ function IconExtend() {
         <img className='icon' src={Extend} alt="extand"/>
     );
 }
+function IconExclamation() {
+    return (
+        <img className='icon' src={Exclamation} alt="exclamation"/>
+    );
+}
+function IconApprove() {
+    return (
+        <img className='icon' src={Approve} alt="approve"/>
+    );
+}
+
+
 export {
     IconBars,
     IconFork,
     IconBook,
     IconPizza,
     IconAddNew,
-    IconExtend
+    IconExtend,
+    IconExclamation,
+    IconApprove
 };

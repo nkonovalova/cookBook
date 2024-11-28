@@ -1,11 +1,11 @@
-import './categories.module.css'
 import PageWrapper from "../../shared/ui/page-wrapper";
 import Input from "../../shared/ui/input";
 
-function Categories() {
+function UIPage() {
 
     return (
-        <PageWrapper header='Категории'>
+        <PageWrapper header='UI Page'>
+            <h2>Input</h2>
             <form>
                 <ul>
                     <li>
@@ -32,8 +32,10 @@ function Categories() {
                     </li>
                 </ul>
             </form>
+            <h2>Button</h2>
+
         </PageWrapper>
     )
 }
 
-export default Categories
+export default UIPage
