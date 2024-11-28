@@ -4,8 +4,9 @@ import classNames from "classnames";
 
 import {ROUTE_CATEGORIES, ROUTE_MAIN} from "../../shared/router";
 import {IconAddNew, IconBook, IconFork, IconPizza} from "../../shared/ui/icons";
-import './nav.css';
 import ButtonExtend from "../../shared/ui/button-extend";
+
+import style from './nav.module.css';
 
 type NavT = {
     isShow: boolean
@@ -17,56 +18,56 @@ function Nav ({ isShow }: NavT) {
         setIsExtend(!isExtend);
     };
     return (
-        <div className={ classNames('nav',{
-            'nav-show': isShow,
-            'nav-extend': isExtend
+        <div className={ classNames(style.nav,{
+            [style.show]: isShow,
+            [style.extend]: isExtend
         })}>
-            <ul className='nav-list'>
-                <li className='nav-item'>
+            <ul className={ style.list }>
+                <li className={ style.item }>
                     <NavLink
-                        className='nav-item-link'
+                        className={ style.link }
                         to={ROUTE_MAIN}
                     >
-                        <div className='nav-logo-container'>
+                        <div className={ style.logo }>
                             <IconFork/>
                         </div>
-                        <div className='nav-text'>
+                        <div className={ style.text }>
                             Рецепты
                         </div>
                     </NavLink>
                 </li>
-                <li className='nav-item'>
-                    <NavLink className='nav-item-link' to={ROUTE_CATEGORIES}>
-                        <div className='nav-logo-container'>
+                <li className={ style.item }>
+                    <NavLink className={ style.link } to={ROUTE_CATEGORIES}>
+                        <div className={ style.logo }>
                             <IconBook/>
                         </div>
-                        <div className='nav-text'>
+                        <div className={ style.text }>
                             Категории
                         </div>
                     </NavLink>
                 </li>
-                <li className='nav-item'>
-                    <NavLink className='nav-item-link' to={ROUTE_MAIN}>
-                        <div className='nav-logo-container'>
+                <li className={ style.item }>
+                    <NavLink className={ style.link } to={ROUTE_MAIN}>
+                        <div className={ style.logo }>
                             <IconPizza/>
                         </div>
-                        <div className='nav-text'>
+                        <div className={ style.text }>
                             Ингредиенты
                         </div>
                     </NavLink>
                 </li>
-                <li className='nav-item'>
-                    <NavLink className='nav-item-link' to={ROUTE_MAIN}>
-                        <div className='nav-logo-container'>
+                <li className={ style.item }>
+                    <NavLink className={ style.link } to={ROUTE_MAIN}>
+                        <div className={ style.logo }>
                             <IconAddNew/>
                         </div>
-                        <div className='nav-text'>
+                        <div className={ style.text }>
                             Новый рецепт
                         </div>
                     </NavLink>
                 </li>
             </ul>
-            <div className='extend-container'>
+            <div className={ style.extendContainer }>
                 <ButtonExtend onClick={extendHandler} isExtend={isExtend} />
             </div>
         </div>

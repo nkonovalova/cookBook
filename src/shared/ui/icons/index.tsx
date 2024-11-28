@@ -6,6 +6,7 @@ import AddNew from "./assets/addNew.svg";
 import Extend from "./assets/doubleChevron.svg";
 import Exclamation from './assets/exclamationMark.svg';
 import Approve from './assets/approve.svg';
+import Trash from './assets/trash.svg';
 import './icons.css';
 
 function IconBars() {
@@ -48,6 +49,11 @@ function IconApprove() {
         <img className='icon' src={Approve} alt="approve"/>
     );
 }
+function IconTrash() {
+    return (
+        <img className='icon' src={Trash} alt="trash"/>
+    );
+}
 
 
 export {
@@ -58,5 +64,6 @@ export {
     IconAddNew,
     IconExtend,
     IconExclamation,
-    IconApprove
+    IconApprove,
+    IconTrash
 };
