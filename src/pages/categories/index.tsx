@@ -1,36 +1,41 @@
-import './categories.module.css'
 import PageWrapper from "../../shared/ui/page-wrapper";
 import Input from "../../shared/ui/input";
+import style from './categories.module.css'
+import ButtonDelete from "../../shared/ui/button-delete";
+import ButtonAdd from "../../shared/ui/button-add";
+import Button from "../../shared/ui/button";
 
 function Categories() {
 
     return (
-        <PageWrapper header='Категории' isLoading={true}>
-            <form>
-                <ul>
-                    <li>
-                        <Input name='name' placeholder='Название' disabled={true} label='Название'/>
+        <PageWrapper header='Категории' >
+            <form className={ style.form }>
+                <ul className={style.categories}>
+                    <li className={style.item}>
+                        <div className={style.category}>
+                            <Input name='name' placeholder='Название' value='Первые блюда'/>
+                        </div>
+                        <div className={style.delete}>
+                            <ButtonDelete/>
+                        </div>
                     </li>
-                    <li>
-                        <Input name='amount' placeholder='Количество' disabled={false} value={40} label='Количество'/>
-                    </li>
-                    <li>
-                        <Input name='2'
-                               placeholder='Количество'
-                               value={40}
-                               error={true}
-                               message='Произошла чудовищная ошибка'
-                        />
-                    </li>
-                    <li>
-                        <Input
-                            name='3'
-                            placeholder='Количество'
-                            success={true}
-                            message='Все успешно!'
-                        />
+                    <li className={style.item}>
+                        <div className={style.category}>
+                            <Input name='name' placeholder='Название'/>
+                        </div>
+                        <div className={style.delete}>
+                            <ButtonDelete/>
+                        </div>
+                        <div className={style.add}>
+                            <ButtonAdd/>
+                        </div>
                     </li>
                 </ul>
+                <div className={style.save}>
+                    <Button>
+                        Сохранить
+                    </Button>
+                </div>
             </form>
         </PageWrapper>
     )
