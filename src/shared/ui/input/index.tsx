@@ -1,6 +1,7 @@
 import style from './input.module.css';
 import classNames from "classnames";
 import {IconApprove, IconExclamation} from "../icons";
+import {ChangeEvent} from "react";
 
 type InputT = {
     name: string,
@@ -11,10 +12,9 @@ type InputT = {
     error?: boolean,
     success?: boolean,
     message?: string,
-    onChange?: () => void,
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 function Input(props: InputT) {
-
     return (
         <label className={ style.label }>
             {props.label &&

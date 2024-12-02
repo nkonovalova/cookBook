@@ -4,7 +4,8 @@ export interface ButtonT {
     disabled?: boolean;
     iconOnly?: boolean;
     onClick?: () => void;
-    children?: ReactNode
+    children?: ReactNode,
+    type?: "button" | "submit" | "reset";
 }
 
 export interface ButtonIconT extends ButtonT {

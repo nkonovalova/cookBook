@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+
 import './loadEnviroments';
 import categories from "./routes/categories";
 import {CATEGORIES_URL} from "./shared/const";
@@ -6,6 +8,7 @@ import {CATEGORIES_URL} from "./shared/const";
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(CATEGORIES_URL, categories);
 
