@@ -4,7 +4,7 @@ import style from './categories.module.css'
 import ButtonDelete from "../../shared/ui/button-delete";
 import ButtonAdd from "../../shared/ui/button-add";
 import Button from "../../shared/ui/button";
-import {ChangeEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {getCategories} from "../../entities/categories/api/categories.ts";
 import {CategoryT} from "../../entities/categories/model/types.ts";
 import {generateID} from "../../shared/lib/lib.ts";
@@ -41,7 +41,6 @@ function Categories() {
         setAddedIds(newAddedIds);
     };
     let onChangeCategory = (id:string, value: string) => {
-        console.log(value);
         let newCategories = categories.map((category) => {
             if (category._id !== id) {
                 return category
@@ -70,8 +69,8 @@ function Categories() {
                                     name='name'
                                     placeholder='Название категории'
                                     value={ category.name }
-                                    onChange={ (event: ChangeEvent<HTMLInputElement>) => {
-                                        onChangeCategory(category._id, event.target.value);
+                                    onChange={ (value) => {
+                                        onChangeCategory(category._id, String(value));
                                     }}
                                 />
                             </div>
