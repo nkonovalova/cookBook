@@ -1,3 +1,4 @@
+import { object, string } from 'yup';
 import PageWrapper from "../../shared/ui/page-wrapper";
 import Input from "../../shared/ui/input";
 import style from './categories.module.css'
@@ -11,10 +12,17 @@ import {generateID} from "../../shared/lib/lib.ts";
 
 const idPrefix = 'tmp';
 
+let categorySchema = object({
+    name: string().required('Поле названия должно быть заполнено'),
+    id: string().required()
+});
+
 function Categories() {
     const [categories, setCategories] = useState<CategoryT[]>([]);
     const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
     const [updatedIds, setUpdatedIds] = useState<Set<string>>(new Set());
+    const [errors, setErrors] = useState(new Map());
+    const [touched, setTouched] = useState(false);
 
     useEffect(() => {
         getCategories().then((newCategories) => {
@@ -29,6 +37,14 @@ function Categories() {
             setAddedIds(newAddedIds);
             let newCategories = categories.filter(({_id}) => _id !== deletedId);
             setCategories(newCategories);
+            let newErrors = new Map(errors);
+            if (newErrors.has(deletedId)) {
+                newErrors.delete(deletedId);
+                setErrors(newErrors);
+            }
+            if (newAddedIds.size === 0 && updatedIds.size === 0) {
+                setTouched(false);
+            }
         } else {
             // TODO: запрос к серверу на удаление
         }
@@ -37,10 +53,13 @@ function Categories() {
         let id = generateID(idPrefix);
         let newCategories = [...categories];
         let newAddedIds = new Set(addedIds);
+        let newErrors = new Map(errors);
         newCategories.push({ _id: id, name: ''});
         newAddedIds.add(id);
+        newErrors.set(id, 'Поле не должно быть пустым')
         setCategories(newCategories);
         setAddedIds(newAddedIds);
+        setErrors(newErrors);
     };
     let onChangeCategory = (id:string, value: string) => {
         let newCategories = categories.map((category) => {
@@ -53,13 +72,27 @@ function Categories() {
                 });
             }
         });
+        setCategories(newCategories);
+        categorySchema.validate({ id, name: value})
+            .then(() => {
+                let newErrors = new Map(errors);
+                if (newErrors.has(id)) {
+                    newErrors.delete(id)
+                    setErrors(newErrors);
+                }
+            })
+            .catch((error) => {
+                let newErrors = new Map(errors);
+                newErrors.set(id, error.message);
+                setErrors(newErrors);
+            });
+
         if (!addedIds.has(id) && !updatedIds.has(id)) {
-            // let newUpdatedIds = [...updatedIds];
             let newUpdatedIds = new Set(updatedIds);
             newUpdatedIds.add(id);
             setUpdatedIds(newUpdatedIds);
         }
-        setCategories(newCategories);
+        setTouched(true);
     };
     let onFormSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -88,6 +121,9 @@ function Categories() {
                                     name='name'
                                     placeholder='Название категории'
                                     value={ category.name }
+                                    error={ errors.has(category._id) }
+                                    success={ !errors.has(category._id) }
+                                    message={ errors.has(category._id) ? errors.get(category._id) : ''}
                                     onChange={ (value) => {
                                         onChangeCategory(category._id, String(value));
                                     }}
@@ -111,7 +147,7 @@ function Categories() {
                     ))}
                 </ul>
                 <div className={style.save}>
-                    <Button type='submit'>
+                    <Button type='submit' disabled={ !touched || (touched && errors.size > 0) }>
                         Сохранить
                     </Button>
                 </div>

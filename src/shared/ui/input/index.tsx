@@ -19,17 +19,20 @@ type InputT = {
 
 function Input(props: InputT) {
     const [value, setValue] = useState(props.value || '');
-    const [isChanging, setIsChanging] = useState(false);
+    const [touched, setTouched] = useState(false);
+    const [showStatus, setShowStatus] = useState(false);
+
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
-        setIsChanging(true);
+        setTouched(true);
     };
     useEffect(() => {
-        if (isChanging) {
-            const intervalId = setTimeout(() => {
+        if (touched) {
+            const timeoutId = setTimeout(() => {
                 props.onChange?.(value);
+                setShowStatus(true);
             }, inputChangeTimeout);
-            return () => clearTimeout(intervalId);
+            return () => clearTimeout(timeoutId);
         }
     }, [value]);
     return (
@@ -43,25 +46,25 @@ function Input(props: InputT) {
                 <input
                     {...props}
                     className={classNames(style.input, {
-                        [style.error]: props.error,
-                        [style.success]: props.success,
+                        [style.error]: props.error && showStatus,
+                        [style.success]: props.success && showStatus,
                     })}
                     value={ value }
                     onChange={ onChangeHandler }
                 />
-                { props.error &&
+                { props.error && showStatus &&
                     <div className={ style.status }>
                         <IconExclamation/>
                     </div>
                 }
-                { props.success &&
+                { props.success && showStatus &&
                     <div className={ style.status }>
                         <IconApprove/>
                     </div>
                 }
             </div>
 
-            {props.message &&
+            {props.message && showStatus &&
                 <p className={classNames([style.message], {
                     [style.messageError]: props.error,
                     [style.messageSuccess]: props.success
