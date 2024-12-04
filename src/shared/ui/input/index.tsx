@@ -19,14 +19,18 @@ type InputT = {
 
 function Input(props: InputT) {
     const [value, setValue] = useState(props.value || '');
+    const [isChanging, setIsChanging] = useState(false);
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
+        setIsChanging(true);
     };
     useEffect(() => {
-        const intervalId = setTimeout(() => {
-            props.onChange?.(value);
-        }, inputChangeTimeout);
-        return () => clearTimeout(intervalId);
+        if (isChanging) {
+            const intervalId = setTimeout(() => {
+                props.onChange?.(value);
+            }, inputChangeTimeout);
+            return () => clearTimeout(intervalId);
+        }
     }, [value]);
     return (
         <label className={ style.label }>

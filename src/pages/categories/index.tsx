@@ -4,7 +4,7 @@ import style from './categories.module.css'
 import ButtonDelete from "../../shared/ui/button-delete";
 import ButtonAdd from "../../shared/ui/button-add";
 import Button from "../../shared/ui/button";
-import {useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {getCategories} from "../../entities/categories/api/categories.ts";
 import {CategoryT} from "../../entities/categories/model/types.ts";
 import {generateID} from "../../shared/lib/lib.ts";
@@ -13,17 +13,19 @@ const idPrefix = 'tmp';
 
 function Categories() {
     const [categories, setCategories] = useState<CategoryT[]>([]);
-    const [addedIds, setAddedIds] = useState<string[]>([]);
-    const [updatedIds, setUpdatedIds] = useState<string[]>([]);
+    const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+    const [updatedIds, setUpdatedIds] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         getCategories().then((newCategories) => {
             setCategories(newCategories);
         });
     }, []);
+
     let onCategoryDelete = (deletedId:string) => {
-        if (addedIds.includes(deletedId)) {
-            let newAddedIds = addedIds.filter((id) => id !== deletedId);
+        if (addedIds.has(deletedId)) {
+            let newAddedIds = new Set(addedIds);
+            newAddedIds.delete(deletedId);
             setAddedIds(newAddedIds);
             let newCategories = categories.filter(({_id}) => _id !== deletedId);
             setCategories(newCategories);
@@ -34,9 +36,9 @@ function Categories() {
     let onAddCategory = () => {
         let id = generateID(idPrefix);
         let newCategories = [...categories];
-        let newAddedIds = [...addedIds];
+        let newAddedIds = new Set(addedIds);
         newCategories.push({ _id: id, name: ''});
-        newAddedIds.push(id);
+        newAddedIds.add(id);
         setCategories(newCategories);
         setAddedIds(newAddedIds);
     };
@@ -51,16 +53,33 @@ function Categories() {
                 });
             }
         });
-        if (!addedIds.includes(id) && !updatedIds.includes(id)) {
-            let newUpdatedIds = [...updatedIds];
-            newUpdatedIds.push(id);
+        if (!addedIds.has(id) && !updatedIds.has(id)) {
+            // let newUpdatedIds = [...updatedIds];
+            let newUpdatedIds = new Set(updatedIds);
+            newUpdatedIds.add(id);
             setUpdatedIds(newUpdatedIds);
         }
         setCategories(newCategories);
     };
+    let onFormSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        let toUpdate = [];
+        let toCreate = [];
+        for (let category of categories) {
+            if (addedIds.has(category._id)) {
+                toCreate.push(category.name);
+            }
+            if (updatedIds.has(category._id)) {
+                toUpdate.push(category);
+            }
+        }
+        console.log('update: ', toUpdate);
+        console.log('create: ', toCreate);
+        // TODO: нужны запросы на апдейт и создание категорий
+    };
     return (
         <PageWrapper header='Категории' >
-            <form className={ style.form }>
+            <form className={ style.form } onSubmit={ onFormSubmit } >
                 <ul className={style.categories}>
                     { categories && categories.map((category, index) => (
                         <li className={style.item} key={ category._id }>
@@ -92,7 +111,7 @@ function Categories() {
                     ))}
                 </ul>
                 <div className={style.save}>
-                    <Button>
+                    <Button type='submit'>
                         Сохранить
                     </Button>
                 </div>
