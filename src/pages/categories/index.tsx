@@ -9,6 +9,7 @@ import {FormEvent, useEffect, useState} from "react";
 import {getCategories} from "../../entities/categories/api/categories.ts";
 import {CategoryT} from "../../entities/categories/model/types.ts";
 import {generateID} from "../../shared/lib/lib.ts";
+import {useQuery} from "@tanstack/react-query";
 
 const idPrefix = 'tmp';
 
@@ -24,11 +25,12 @@ function Categories() {
     const [errors, setErrors] = useState(new Map());
     const [touched, setTouched] = useState(false);
 
+    const categoriesQuery = useQuery({ queryKey: ['categories'], queryFn: getCategories});
     useEffect(() => {
-        getCategories().then((newCategories) => {
-            setCategories(newCategories);
-        });
-    }, []);
+        if (categoriesQuery.data) {
+            setCategories(categoriesQuery.data);
+        }
+    }, [categoriesQuery.data]);
 
     let onCategoryDelete = (deletedId:string) => {
         if (addedIds.has(deletedId)) {

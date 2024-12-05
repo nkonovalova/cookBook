@@ -1,5 +1,11 @@
 import { useState } from "react";
 import {BrowserRouter, Routes, Route} from "react-router";
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 import RecipeList from "../pages/recipe-list";
 import ErrorPage from "../pages/error-page";
@@ -20,22 +26,25 @@ function App() {
     }
     return (
         <BrowserRouter>
-            <main className={styles.layout}>
-                <section className={styles.header}>
-                    <PageHeader onHamburgerClick={ switchMenu } />
-                </section>
-                <section className={styles.navigation}>
-                    <Nav isShow={showMenu} />
-                </section>
-                <section className={styles.content}>
-                    <Routes>
-                        <Route index element={<RecipeList/>} errorElement={<ErrorPage/>}/>
-                        <Route path={ROUTE_RECIPE} element={<ShowRecipe/>} />
-                        <Route path={ROUTE_CATEGORIES} element={<Categories/>} />
-                        <Route path={ROUTE_UI} element={<UIPage/>} />
-                    </Routes>
-                </section>
-            </main>
+            <QueryClientProvider client={queryClient}>
+                <main className={styles.layout}>
+                    <section className={styles.header}>
+                        <PageHeader onHamburgerClick={switchMenu}/>
+                    </section>
+                    <section className={styles.navigation}>
+                        <Nav isShow={showMenu}/>
+                    </section>
+                    <section className={styles.content}>
+                        <Routes>
+                            <Route index element={<RecipeList/>} errorElement={<ErrorPage/>}/>
+                            <Route path={ROUTE_RECIPE} element={<ShowRecipe/>}/>
+                            <Route path={ROUTE_CATEGORIES} element={<Categories/>}/>
+                            <Route path={ROUTE_UI} element={<UIPage/>}/>
+                        </Routes>
+                    </section>
+                </main>
+            </QueryClientProvider>
+
         </BrowserRouter>
     )
 }
