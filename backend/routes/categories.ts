@@ -21,12 +21,17 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     let collection = await db.collection(DB_COLLECTION_CATEGORIES);
-    let newDocument = req.body;
-    newDocument.date = new Date();
-    let result = await collection.insertOne(newDocument);
-    res.send(result).status(204);
+    let newCollection = req.body;
+    try {
+        let result = await collection.insertMany(newCollection);
+        res.status(201).send(result);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ error: error.message });
+    }
 });
 
+//TODO: метод апдейта одной сущности можно будет удалить, вроде не нужен
 router.patch("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
@@ -39,14 +44,37 @@ router.patch("/:id", async (req, res) => {
     res.send(result).status(200);
 });
 
+router.patch("/", async (req, res) => {
+    let collection = await db.collection(DB_COLLECTION_CATEGORIES);
+    let query = req.body.map((category) => {
+        return (
+            { updateOne : {
+                "filter" : { "_id" : new ObjectId(category._id) },
+                "update" : { $set : { "name" : category.name } }
+            }
+        });
+    });
+    try {
+        let result = await collection.bulkWrite(query);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ error: error.message });
+    }
+});
+
 // Delete an entry
 router.delete("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
-
     const collection = db.collection(DB_COLLECTION_CATEGORIES);
-    let result = await collection.deleteOne(query);
+    try {
+        let result = await collection.deleteOne(query);
+        res.send(result).status(200);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ error: error.message });
+    }
 
-    res.send(result).status(200);
 });
 
 

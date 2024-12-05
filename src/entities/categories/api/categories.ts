@@ -1,13 +1,7 @@
 import {PORT, URL_CATEGORIES} from "../../../config.ts";
+import {CategoryT, newCategoryT} from "../model/types.ts";
 
 async function getCategories() {
-    // TODO: сделать обработку ошибок
-    // return await fetch(`${PORT}${URL_CATEGORIES}`, {
-    //     headers : {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     }
-    // }).then(data => data.json());
     let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
     headers : {
         'Content-Type': 'application/json',
@@ -20,4 +14,69 @@ async function getCategories() {
     return response.json()
 }
 
-export { getCategories };
+async function addNewCategories(newCategories: newCategoryT[]) {
+    try {
+        let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(newCategories)
+        })
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        const json = await response.json();
+        return json();
+    } catch (error: any) {
+        console.error(error.message);
+    }
+}
+
+async function updateCategories(toUpdate: CategoryT[]) {
+    try {
+        let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
+            method: 'PATCH',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(toUpdate)
+        })
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        const json = await response.json();
+        return json();
+    } catch (error: any) {
+        console.error(error.message);
+    }
+}
+
+async function deleteCategory(id: string) {
+    try {
+        let response = await fetch(`${PORT}${URL_CATEGORIES}/${id}`, {
+            method: 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        const json = await response.json();
+        return json();
+    } catch (error: any) {
+        console.error(error.message);
+    }
+}
+
+
+export {
+    getCategories,
+    addNewCategories,
+    updateCategories,
+    deleteCategory,
+};

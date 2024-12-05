@@ -6,10 +6,15 @@ import ButtonDelete from "../../shared/ui/button-delete";
 import ButtonAdd from "../../shared/ui/button-add";
 import Button from "../../shared/ui/button";
 import {FormEvent, useEffect, useState} from "react";
-import {getCategories} from "../../entities/categories/api/categories.ts";
-import {CategoryT} from "../../entities/categories/model/types.ts";
+import {
+    addNewCategories,
+    deleteCategory,
+    getCategories,
+    updateCategories
+} from "../../entities/categories/api/categories.ts";
+import {CategoryT, newCategoryT} from "../../entities/categories/model/types.ts";
 import {generateID} from "../../shared/lib/lib.ts";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 const idPrefix = 'tmp';
 
@@ -18,6 +23,8 @@ let categorySchema = object({
     id: string().required()
 });
 
+
+
 function Categories() {
     const [categories, setCategories] = useState<CategoryT[]>([]);
     const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
@@ -25,7 +32,27 @@ function Categories() {
     const [errors, setErrors] = useState(new Map());
     const [touched, setTouched] = useState(false);
 
+    const queryClient = useQueryClient();
+
     const categoriesQuery = useQuery({ queryKey: ['categories'], queryFn: getCategories});
+    const addCategoriesMutation = useMutation({
+        mutationFn: (toCreate: newCategoryT[]) => addNewCategories(toCreate),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: ['categories'] })
+        },
+    });
+    const updateCategoriesMutation = useMutation({
+        mutationFn: (toUpdate: CategoryT[]) => updateCategories(toUpdate),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: ['categories'] })
+        }
+    });
+    const deleteCategoryMutation = useMutation({
+        mutationFn: (id: string) => deleteCategory(id),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: ['categories'] })
+        }
+    });
     useEffect(() => {
         if (categoriesQuery.data) {
             setCategories(categoriesQuery.data);
@@ -48,7 +75,7 @@ function Categories() {
                 setTouched(false);
             }
         } else {
-            // TODO: запрос к серверу на удаление
+            deleteCategoryMutation.mutate(deletedId);
         }
     };
     let onAddCategory = () => {
@@ -99,18 +126,21 @@ function Categories() {
     let onFormSubmit = (event: FormEvent) => {
         event.preventDefault();
         let toUpdate = [];
-        let toCreate = [];
+        let toCreate: newCategoryT[] = [];
         for (let category of categories) {
             if (addedIds.has(category._id)) {
-                toCreate.push(category.name);
+                toCreate.push({ name: category.name });
             }
             if (updatedIds.has(category._id)) {
                 toUpdate.push(category);
             }
         }
-        console.log('update: ', toUpdate);
-        console.log('create: ', toCreate);
-        // TODO: нужны запросы на апдейт и создание категорий
+        if (toCreate.length > 0) {
+            addCategoriesMutation.mutate(toCreate);
+        }
+        if (toUpdate.length > 0) {
+            updateCategoriesMutation.mutate(toUpdate);
+        }
     };
     return (
         <PageWrapper header='Категории' >
