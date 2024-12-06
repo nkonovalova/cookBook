@@ -2,11 +2,13 @@
     padding: 0 24px 30px;
     margin-top: 80px;
     position: relative;
+    min-height: calc(100% - 40px);
 }
 @media screen and (min-width: 600px)  {
     .layout {
         padding-top: 0;
         padding-bottom: 50px;
+        min-height: calc(100% - 135px);;
     }
 }
 .wrapper {
@@ -17,7 +19,7 @@
 .preloader {
     width: 100%;
     position: absolute;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     top: 0;
     bottom: 0;
     left: 0;
@@ -26,6 +28,13 @@
 @media screen and (min-width: 600px) {
     .preloader {
         top: -80px;
+        bottom: -30px;
+    }
+}
+@media screen and (min-width: 1024px){
+    .preloader {
+        top: -80px;
+        bottom: -80px;
     }
 }
 .preloaderText {
@@ -67,11 +76,11 @@
     }
 }
 
-
-.content {
-
+.errors {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    min-width: 200px;
+    max-width: 500px;
 }
 
-.header {
-
-}

@@ -7,6 +7,7 @@ import Extend from "./assets/doubleChevron.svg";
 import Exclamation from './assets/exclamationMark.svg';
 import Approve from './assets/approve.svg';
 import Trash from './assets/trash.svg';
+import Close from './assets/close.svg';
 import './icons.css';
 
 function IconBars() {
@@ -55,6 +56,12 @@ function IconTrash() {
     );
 }
 
+function IconClose() {
+    return (
+        <img className='icon' src={Close} alt="close"/>
+    );
+}
+
 
 export {
     IconBars,
@@ -65,5 +72,6 @@ export {
     IconExtend,
     IconExclamation,
     IconApprove,
-    IconTrash
+    IconTrash,
+    IconClose
 };

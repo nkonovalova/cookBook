@@ -35,6 +35,7 @@ function Input(props: InputT) {
             return () => clearTimeout(timeoutId);
         }
     }, [value]);
+
     return (
         <label className={ style.label }>
             {props.label &&

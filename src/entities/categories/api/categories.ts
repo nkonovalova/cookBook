@@ -15,23 +15,37 @@ async function getCategories() {
 }
 
 async function addNewCategories(newCategories: newCategoryT[]) {
-    try {
-        let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
-            method: 'POST',
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(newCategories)
-        })
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        const json = await response.json();
-        return json();
-    } catch (error: any) {
-        console.error(error.message);
+    let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(newCategories)
+    });
+    if (!response.ok) {
+        throw new Error(response.statusText);
     }
+    return response.json();
+    // try {
+    //     let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
+    //         method: 'POST',
+    //         headers : {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         },
+    //         body: JSON.stringify(newCategories)
+    //     });
+    //     if (!response.ok) {
+    //         throw new Error(response.statusText);
+    //     }
+    //     const json = response.json();
+    //     console.log(json);
+    //     return json();
+    // } catch (error: any) {
+    //    console.error(error.message);
+    //    //  return error;
+    // }
 }
 
 async function updateCategories(toUpdate: CategoryT[]) {
@@ -66,8 +80,8 @@ async function deleteCategory(id: string) {
         if (!response.ok) {
             throw new Error(response.statusText);
         }
-        const json = await response.json();
-        return json();
+        // const json = await response.json();
+        return response;
     } catch (error: any) {
         console.error(error.message);
     }

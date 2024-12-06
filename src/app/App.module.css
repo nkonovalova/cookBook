@@ -1,5 +1,5 @@
 .layout {
-  height: 100vh;
+  /*height: 100vh;*/
   position: relative;
 
 }
@@ -38,6 +38,7 @@
 .content {
   grid-area: content;
   z-index: 1;
+  height: calc(100vh - 80px);
 }
 
 @media screen and (min-width: 600px)  {

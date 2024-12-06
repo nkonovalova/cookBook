@@ -1,12 +1,20 @@
 import style from './page-wrapper.module.css';
-import {ReactNode} from "react";
+import {ReactNode, useState} from "react";
+import ErrorBlock from "../errorBlock";
 
 type PageWrapperT = {
     header?: string,
     isLoading?: boolean,
+    isError?: boolean,
+    errors?: string[],
     children?: ReactNode
 };
 function PageWrapper(props: PageWrapperT) {
+    const [showError, setShowError] = useState(false);
+    const onErrorClose = () => {
+        setShowError(false);
+    }
+
     return (
         <div className={ style.layout }>
             {props.isLoading &&
@@ -14,6 +22,11 @@ function PageWrapper(props: PageWrapperT) {
                     <h2 className={style.preloaderText}>
                         Минуточку...
                     </h2>
+                </div>
+            }
+            { props.isError && showError &&
+                <div className={ style.errors }>
+                    <ErrorBlock errors={props.errors} isClose={ true } onClose={ onErrorClose }/>
                 </div>
             }
             <div className={style.wrapper}>

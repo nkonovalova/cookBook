@@ -23,14 +23,13 @@ let categorySchema = object({
     id: string().required()
 });
 
-
-
 function Categories() {
     const [categories, setCategories] = useState<CategoryT[]>([]);
-    const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
-    const [updatedIds, setUpdatedIds] = useState<Set<string>>(new Set());
+    const [addedIds, setAddedIds] = useState<Map<string, string>>(new Map());
+    const [updatedIds, setUpdatedIds] = useState<Map<string, string>>(new Map());
     const [errors, setErrors] = useState(new Map());
     const [touched, setTouched] = useState(false);
+    const [keyForm, setKeyForm] = useState(generateID());
 
     const queryClient = useQueryClient();
 
@@ -38,12 +37,30 @@ function Categories() {
     const addCategoriesMutation = useMutation({
         mutationFn: (toCreate: newCategoryT[]) => addNewCategories(toCreate),
         onSuccess: () => {
+            let newErrors = new Map(errors);
+            for (let addedCategory of addedIds.keys()) {
+                if (newErrors.has(addedCategory)) newErrors.delete(addedCategory);
+            }
+            if (newErrors.size === 0) {
+                setTouched(false);
+                setKeyForm(generateID())
+            }
+            setAddedIds(new Map());
             void queryClient.invalidateQueries({ queryKey: ['categories'] })
         },
     });
     const updateCategoriesMutation = useMutation({
         mutationFn: (toUpdate: CategoryT[]) => updateCategories(toUpdate),
         onSuccess: () => {
+            let newErrors = new Map(errors);
+            for (let updateCategory of updatedIds.keys()) {
+                if (newErrors.has(updateCategory)) newErrors.delete(updateCategory);
+            }
+            if (newErrors.size === 0) {
+                setTouched(false);
+                setKeyForm(generateID());
+            }
+            setUpdatedIds(new Map());
             void queryClient.invalidateQueries({ queryKey: ['categories'] })
         }
     });
@@ -55,13 +72,35 @@ function Categories() {
     });
     useEffect(() => {
         if (categoriesQuery.data) {
-            setCategories(categoriesQuery.data);
+            let newCategories = [...categoriesQuery.data];
+            if (addedIds.size > 0) {
+                let addedCategories = [];
+                for (let category of addedIds) {
+                    addedCategories.push({
+                        _id: category[0],
+                        name: category[1]
+                    })
+                }
+                newCategories = newCategories.concat(addedCategories);
+            }
+            if (updatedIds.size > 0) {
+                newCategories = newCategories.map((category) => {
+                    if (updatedIds.has(category._id)) {
+                        return ({
+                            ...category,
+                            name: updatedIds.get(category._id)
+                        })
+                    }
+                    return category;
+                })
+            }
+            setCategories(newCategories);
         }
     }, [categoriesQuery.data]);
 
     let onCategoryDelete = (deletedId:string) => {
         if (addedIds.has(deletedId)) {
-            let newAddedIds = new Set(addedIds);
+            let newAddedIds = new Map(addedIds);
             newAddedIds.delete(deletedId);
             setAddedIds(newAddedIds);
             let newCategories = categories.filter(({_id}) => _id !== deletedId);
@@ -75,16 +114,21 @@ function Categories() {
                 setTouched(false);
             }
         } else {
+            if (updatedIds.has(deletedId)) {
+                let newUpdatedIds = new Map(updatedIds);
+                newUpdatedIds.delete(deletedId);
+                setUpdatedIds(newUpdatedIds);
+            }
             deleteCategoryMutation.mutate(deletedId);
         }
     };
     let onAddCategory = () => {
         let id = generateID(idPrefix);
         let newCategories = [...categories];
-        let newAddedIds = new Set(addedIds);
+        let newAddedIds = new Map(addedIds);
         let newErrors = new Map(errors);
         newCategories.push({ _id: id, name: ''});
-        newAddedIds.add(id);
+        newAddedIds.set(id, '');
         newErrors.set(id, 'Поле не должно быть пустым')
         setCategories(newCategories);
         setAddedIds(newAddedIds);
@@ -117,8 +161,18 @@ function Categories() {
             });
 
         if (!addedIds.has(id) && !updatedIds.has(id)) {
-            let newUpdatedIds = new Set(updatedIds);
-            newUpdatedIds.add(id);
+            let newUpdatedIds = new Map(updatedIds);
+            newUpdatedIds.set(id, value);
+            setUpdatedIds(newUpdatedIds);
+        }
+        if (addedIds.has(id)) {
+            let newAddedIds = new Map(addedIds);
+            newAddedIds.set(id, value);
+            setAddedIds(newAddedIds);
+        }
+        if (updatedIds.has(id)) {
+            let newUpdatedIds = new Map(updatedIds);
+            newUpdatedIds.set(id, value);
             setUpdatedIds(newUpdatedIds);
         }
         setTouched(true);
@@ -142,9 +196,29 @@ function Categories() {
             updateCategoriesMutation.mutate(toUpdate);
         }
     };
+    const isLoading = categoriesQuery.isPending ||
+        deleteCategoryMutation.isPending ||
+        addCategoriesMutation.isPending ||
+        updateCategoriesMutation.isPending;
+
+    const isError = categoriesQuery.isError ||
+        deleteCategoryMutation.isError ||
+        addCategoriesMutation.isError ||
+        updateCategoriesMutation.isError;
+    const errorMessage: string [] = [
+        categoriesQuery.error?.message || '',
+        deleteCategoryMutation.error?.message || '',
+        addCategoriesMutation.error?.message || '',
+        updateCategoriesMutation.error?.message || '',
+    ];
     return (
-        <PageWrapper header='Категории' >
-            <form className={ style.form } onSubmit={ onFormSubmit } >
+        <PageWrapper
+            header='Категории'
+            isLoading={ isLoading }
+            isError={ isError }
+            errors={ errorMessage }
+        >
+            <form className={ style.form } onSubmit={ onFormSubmit } key={ keyForm } >
                 <ul className={style.categories}>
                     { categories && categories.map((category, index) => (
                         <li className={style.item} key={ category._id }>
@@ -154,7 +228,7 @@ function Categories() {
                                     placeholder='Название категории'
                                     value={ category.name }
                                     error={ errors.has(category._id) }
-                                    success={ !errors.has(category._id) }
+                                    success={ touched && !errors.has(category._id) }
                                     message={ errors.has(category._id) ? errors.get(category._id) : ''}
                                     onChange={ (value) => {
                                         onChangeCategory(category._id, String(value));
