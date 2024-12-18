@@ -47,7 +47,7 @@ function Categories() {
             }
             setAddedIds(new Map());
             void queryClient.invalidateQueries({ queryKey: ['categories'] })
-        },
+        }
     });
     const updateCategoriesMutation = useMutation({
         mutationFn: (toUpdate: CategoryT[]) => updateCategories(toUpdate),
@@ -211,6 +211,7 @@ function Categories() {
         addCategoriesMutation.error?.message || '',
         updateCategoriesMutation.error?.message || '',
     ];
+    console.log(errorMessage);
     return (
         <PageWrapper
             header='Категории'

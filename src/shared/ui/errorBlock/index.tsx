@@ -1,6 +1,7 @@
 import style from './error-block.module.css';
 import {IconExclamation} from '../icons';
 import ButtonClose from "../button-close";
+import {generateID} from "../../lib/lib.ts";
 
 interface ErrorBlockT {
     errors?: string[],
@@ -20,7 +21,7 @@ ErrorBlock ({ isClose = false, errors, onClose}: ErrorBlockT) {
             </h3>
             <ul className={style.errors}>
                 {errorList?.map((error: string) =>
-                    <li className={style.errorItem}>{error}</li>
+                    <li key={generateID()} className={style.errorItem}>{error}</li>
                 )}
             </ul>
             {isClose &&

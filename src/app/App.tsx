@@ -5,7 +5,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 import RecipeList from "../pages/recipe-list";
 import ErrorPage from "../pages/error-page";

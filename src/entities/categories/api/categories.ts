@@ -24,28 +24,10 @@ async function addNewCategories(newCategories: newCategoryT[]) {
         body: JSON.stringify(newCategories)
     });
     if (!response.ok) {
-        throw new Error(response.statusText);
+        let resultBody = await response.json();
+        throw new Error(resultBody.error);
     }
     return response.json();
-    // try {
-    //     let response = await fetch(`${PORT}${URL_CATEGORIES}`, {
-    //         method: 'POST',
-    //         headers : {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json'
-    //         },
-    //         body: JSON.stringify(newCategories)
-    //     });
-    //     if (!response.ok) {
-    //         throw new Error(response.statusText);
-    //     }
-    //     const json = response.json();
-    //     console.log(json);
-    //     return json();
-    // } catch (error: any) {
-    //    console.error(error.message);
-    //    //  return error;
-    // }
 }
 
 async function updateCategories(toUpdate: CategoryT[]) {
