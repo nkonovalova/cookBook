@@ -1,4 +1,4 @@
-import { object, string } from 'yup';
+import { string, object, array } from 'yup';
 import PageWrapper from "../../shared/ui/page-wrapper";
 import Input from "../../shared/ui/input";
 import style from './categories.module.css'
@@ -18,9 +18,28 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 const idPrefix = 'tmp';
 
-let categorySchema = object({
-    name: string().required('Поле названия должно быть заполнено'),
-    id: string().required()
+const categorySchema = array().of(object().shape({
+    name:
+        string().
+        required('Поле названия должно быть заполнено')
+    ,
+    _id: string().required(),
+})).test({
+    name: 'uniqueCategory',
+    message: 'Названия категорий должны быть уникальны',
+    test: (categories: CategoryT[]) => {
+        if (categories && categories?.length > 0) {
+            let uniqCategories = new Set();
+            for (let i=0; i < categories.length; i++) {
+                if (uniqCategories.has(categories[i].name)) {
+                    return false;
+                } else {
+                    uniqCategories.add(categories[i].name);
+                }
+            }
+        }
+        return true;
+    }
 });
 
 function Categories() {
@@ -146,7 +165,8 @@ function Categories() {
             }
         });
         setCategories(newCategories);
-        categorySchema.validate({ id, name: value})
+
+        categorySchema.validate(newCategories)
             .then(() => {
                 let newErrors = new Map(errors);
                 if (newErrors.has(id)) {
@@ -211,7 +231,6 @@ function Categories() {
         addCategoriesMutation.error?.message || '',
         updateCategoriesMutation.error?.message || '',
     ];
-    console.log(errorMessage);
     return (
         <PageWrapper
             header='Категории'
