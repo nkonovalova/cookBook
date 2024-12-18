@@ -25,7 +25,9 @@ function Nav ({ isShow }: NavT) {
             <ul className={ style.list }>
                 <li className={ style.item }>
                     <NavLink
-                        className={ style.link }
+                        className={ ({isActive}) =>
+                            (isActive ? `${style.link} ${style.active}` : style.link)
+                        }
                         to={ROUTE_MAIN}
                     >
                         <div className={ style.logo }>
@@ -37,7 +39,12 @@ function Nav ({ isShow }: NavT) {
                     </NavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink className={ style.link } to={ROUTE_CATEGORIES}>
+                    <NavLink
+                        className={ ({isActive}) =>
+                            (isActive ? `${style.link} ${style.active}` : style.link)
+                        }
+                        to={ROUTE_CATEGORIES}
+                    >
                         <div className={ style.logo }>
                             <IconBook/>
                         </div>
@@ -47,7 +54,12 @@ function Nav ({ isShow }: NavT) {
                     </NavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink className={ style.link } to={ROUTE_MAIN}>
+                    <NavLink
+                        className={ ({isActive}) =>
+                            (isActive ? `${style.link} ${style.active}` : style.link)
+                        }
+                        to={ROUTE_MAIN}
+                    >
                         <div className={ style.logo }>
                             <IconPizza/>
                         </div>
@@ -57,10 +69,15 @@ function Nav ({ isShow }: NavT) {
                     </NavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink className={ style.link } to={ROUTE_MAIN}>
+                    <NavLink
+                        className={ ({isActive}) =>
+                            (isActive ? `${style.link} ${style.active}` : style.link)
+                        }
+                        to={ROUTE_MAIN}
+                    >
                         <div className={ style.logo }>
                             <IconAddNew/>
-                        </div>
+                        </div>&nbsp;
                         <div className={ style.text }>
                             Новый рецепт
                         </div>
