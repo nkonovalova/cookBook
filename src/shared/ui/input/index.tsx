@@ -24,6 +24,10 @@ function Input(props: InputT) {
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
+        // setTouched(true);
+    };
+    const onBlurHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value.trim());
         setTouched(true);
     };
     useEffect(() => {
@@ -52,6 +56,7 @@ function Input(props: InputT) {
                     })}
                     value={ value }
                     onChange={ onChangeHandler }
+                    onBlur={ onBlurHandler }
                 />
                 { props.error && showStatus &&
                     <div className={ style.status }>

@@ -53,8 +53,8 @@
     margin: 0 0 5px;
 }
 .message {
-    margin: 5px 0 0;
-    font-size: 12px;
+    margin: 0;
+    font-size: 0.6em;
 }
 .messageError{
     letter-spacing: 1px;

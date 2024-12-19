@@ -21,7 +21,11 @@ const idPrefix = 'tmp';
 const categorySchema = array().of(object().shape({
     name:
         string().
-        required('Поле названия должно быть заполнено')
+        required('Поле названия должно быть заполнено').
+        matches(/^[^,.@\/\\*&$~]*$/,
+            { excludeEmptyString: true, message: 'Поле не должно содержать следующие символы: ^ , . @ / \\ & * ~' }).
+        min(3, 'Название слишком короткое').
+        max(50, 'Название не должно быть длиннее 50 символов')
     ,
     _id: string().required(),
 })).test({
