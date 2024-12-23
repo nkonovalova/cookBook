@@ -3,7 +3,9 @@ import cors from "cors";
 
 import './loadEnviroments';
 import categories from "./routes/categories";
-import {CATEGORIES_URL} from "./shared/const";
+import ingredients from "./routes/ingridients";
+
+import {CATEGORIES_URL, INGREDIENTS_URL} from "./shared/const";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -11,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(CATEGORIES_URL, categories);
+app.use(INGREDIENTS_URL, ingredients);
 
 // Global error handling
 app.use((err, _req, res, next) => {
