@@ -1,0 +1,111 @@
+.nav {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+    left: 0;
+    top: -100%;
+    width: 100%;
+    padding: 0 24px 24px;
+    box-sizing: border-box;
+    background: var(--body-light-background);
+    transition: top 0.4s;
+    border-bottom: 2px solid var(--secondary);
+    z-index: 2;
+}
+@media screen and (min-width: 600px){
+    .nav {
+        display: block;
+        position: relative;
+        top: 0;
+        width: 80px;
+        height: 100%;
+        border-right: 2px solid var(--secondary);
+        border-bottom: none;
+        background: none;
+        padding: 0 24px;
+        transition: width var(--menu-extend-time);
+    }
+}
+.show {
+    top: 80px;
+}
+
+@media screen and (min-width: 600px){
+    .extend {
+        width: 240px;
+    }
+}
+.list {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.item {
+    padding-top: 40px;
+
+}
+.link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+.link.active {
+    font-weight: bold;
+}
+.link.active .logo {
+    background: var(--decorative-pink-tone90);
+    border-radius: 8px;
+}
+.extend .link.active .logo {
+    background: none;
+}
+
+
+.logo {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+
+.extendContainer {
+    display: none;
+    position: absolute;
+    bottom: 40px;
+    right: 24px;
+}
+@media screen and (min-width: 600px) {
+    .extendContainer {
+        display: block;
+    }
+}
+
+.text {
+    opacity: 0;
+    position: relative;
+    transition: opacity ease-in-out var(--menu-extend-time);
+}
+.text:after {
+    content: '';
+    display: none;
+}
+.extend .text {
+    /*display: initial;*/
+    opacity: 1;
+}
+.extend .link.active .text:after {
+    display: block;
+    position: absolute;
+    text-wrap: nowrap;
+    top: 4px;
+    right: -18px;
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    clip-path: polygon(50% 0%, 30% 30%,0% 50%, 30% 70%, 50% 100%, 70% 70%, 100% 50%, 70% 30%);
+}
+
+

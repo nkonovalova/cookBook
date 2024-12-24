@@ -1,0 +1,40 @@
+.container {
+    position: relative;
+    padding: 10px;
+    background: var(--feedback-danger-90);
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.exclamation {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px ;
+}
+
+.header {
+    display: inline-flex;
+    font-size: 16px;
+    align-items: center;
+    margin: 5px 0 5px;
+    line-height: 20px;
+}
+
+.errors {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.errorItem {
+    margin-bottom: 5px
+}
+
+.close {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

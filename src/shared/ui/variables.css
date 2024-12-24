@@ -1,0 +1,16 @@
+:root {
+    --primary: #FF8ACD;
+    --secondary: #000000;
+    --body-light-background: #FFFBF4;
+    --white: #FFFFFF;
+    --desktop-width: 600px;
+    --menu-extend-time: .3s;
+    --decorative-pink-tone70: #FFC6E7;
+    --decorative-pink-tone90: #FFE2F3;
+    --grey-30: #7E7C78;
+    --grey-50: #B7B1A6;
+    --grey-70: #DDD9D4;
+    --feedback-danger-50: #FF5454;
+    --feedback-danger-90: #FFD6D6 ;
+    --feedback-success: #3CD39D ;
+}

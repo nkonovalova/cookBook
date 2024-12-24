@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import {DB_NAME} from "../shared/const";
 
 const connectionString = process.env.DB_URI || "";
 
@@ -11,6 +12,6 @@ try {
     console.error(e);
 }
 
-let db = conn.db("sample_mflix");
+let db = conn.db(DB_NAME);
 
 export default db;

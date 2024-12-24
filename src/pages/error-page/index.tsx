@@ -1,10 +1,10 @@
-import { useRouteError } from "react-router-dom";
+import {useRouteError} from "react-router";
 
 interface RouteError {
     statusText: string;
     message: string;
 }
-
+//TODO: разобраться, как работает обработка ошибок в react-router
 export default function ErrorPage() {
     const error = useRouteError() as RouteError;
     console.error(error);

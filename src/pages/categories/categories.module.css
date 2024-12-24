@@ -1,0 +1,61 @@
+.form {
+}
+
+.categories {
+    list-style: none;
+    padding: 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+@media screen and (min-width: 1024px){
+    .item {
+        display: flex;
+        justify-content: start;
+    }
+}
+
+.category {
+    width: 80%;
+    flex-shrink: 0;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+@media screen and (min-width: 1024px) {
+    .category {
+        width: 80%;
+        flex-shrink: 0;
+        padding-right: 20px;
+    }
+}
+
+.delete {
+   width: 48px;
+}
+@media screen and (min-width: 1024px) {
+    .delete {
+        width: 10%;
+    }
+}
+.add {
+    width: 100%;
+    flex-shrink: 0;
+}
+@media screen and (min-width: 1024px) {
+    .add {
+        width: 10%;
+    }
+}
+
+.save {
+
+}
+
+@media screen and (min-width: 1024px) {
+    .save {
+        width: 200px;
+    }
+}

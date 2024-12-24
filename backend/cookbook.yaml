@@ -81,7 +81,7 @@ paths:
                   $ref: '#/components/schemas/Category'
         '404':
           description: category not found
-    put:
+    patch:
       tags:
         - categories
       summary: change category by id
@@ -183,7 +183,7 @@ paths:
                   $ref: '#/components/schemas/Ingridient'
         '404':
           description: ingridient not found
-    put:
+    patch:
       tags:
         - ingridients
       summary: change ingridient by id
@@ -282,7 +282,7 @@ paths:
                   $ref: '#/components/schemas/Recipe'
         '404':
           description: recipe not found
-    put:
+    patch:
       tags:
         - recipes
       summary: change recipe by id
