@@ -1,6 +1,7 @@
 .nav {
     display: block;
     position: fixed;
+    overflow: hidden;
     left: 0;
     top: -100%;
     width: 100%;
@@ -83,19 +84,22 @@
 }
 
 .text {
-    display: none;
+    opacity: 0;
     position: relative;
+    transition: opacity ease-in-out var(--menu-extend-time);
 }
 .text:after {
     content: '';
     display: none;
 }
 .extend .text {
-    display: initial;
+    /*display: initial;*/
+    opacity: 1;
 }
 .extend .link.active .text:after {
     display: block;
     position: absolute;
+    text-wrap: nowrap;
     top: 4px;
     right: -18px;
     width: 12px;

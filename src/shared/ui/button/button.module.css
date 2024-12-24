@@ -10,16 +10,17 @@
     border: 1px solid var(--secondary);
     align-items: center;
     justify-content: center;
-    box-shadow: var(--secondary) -2px 2px;
+    /*box-shadow: var(--secondary) -2px 2px;*/
     font-weight: 600;
     letter-spacing: .4px;
     will-change: transform;
     transform: translate(0, 0);
     transition: transform var(--menu-extend-time);
+    box-shadow: var(--menu-extend-time) -2px 2px;
 }
 
 .button:hover {
-    box-shadow: var(--secondary) -4px 4px;
+    box-shadow: var(--secondary) -3px 4px;
     transform: translate(1px, -2px);
 }
 

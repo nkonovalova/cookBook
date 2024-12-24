@@ -1,5 +1,5 @@
 const generateID = (prefix?: string) => {
-    let time = new Date().getTime();
+    let time = Date.now();
     return `${prefix}_${time}`;
 }
 export { generateID };
