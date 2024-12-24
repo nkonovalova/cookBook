@@ -19,8 +19,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 const idPrefix = 'tmp';
 
 const categorySchema = array().of(object().shape({
-    name:
-        string().
+    name: string().
         required('Поле названия должно быть заполнено').
         matches(/^[^,.@\/\\*&$~]*$/,
             { excludeEmptyString: true, message: 'Поле не должно содержать следующие символы: ^ , . @ / \\ & * ~' }).
@@ -32,6 +31,7 @@ const categorySchema = array().of(object().shape({
     name: 'uniqueCategory',
     message: 'Названия категорий должны быть уникальны',
     test: (categories: CategoryT[]) => {
+        debugger;
         if (categories && categories?.length > 0) {
             let uniqCategories = new Set();
             for (let i=0; i < categories.length; i++) {

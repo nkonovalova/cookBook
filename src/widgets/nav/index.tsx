@@ -1,4 +1,4 @@
-import {NavLink} from "react-router";
+import {NavLink, NavLinkProps} from "react-router";
 import {useState} from "react";
 import classNames from "classnames";
 
@@ -12,6 +12,15 @@ type NavT = {
     isShow: boolean
 };
 
+function MyNavLink(props: Omit<NavLinkProps, 'className'>) {
+    return <NavLink
+        className={ ({isActive}) =>
+            classNames(style.link, {[style.active]: isActive})
+        }
+        {...props}
+    >{props.children}</NavLink>
+}
+
 function Nav ({ isShow }: NavT) {
     const [isExtend, setIsExtend] = useState(true);
     let extendHandler = () => {
@@ -24,64 +33,45 @@ function Nav ({ isShow }: NavT) {
         })}>
             <ul className={ style.list }>
                 <li className={ style.item }>
-                    <NavLink
-                        className={ ({isActive}) =>
-                            (isActive ? `${style.link} ${style.active}` : style.link)
-                        }
-                        to={ROUTE_MAIN}
-                    >
-                        <div className={ style.logo }>
+                    <MyNavLink to={ROUTE_MAIN}>
+                        <div className={style.logo}>
                             <IconFork/>
                         </div>
-                        <div className={ style.text }>
+                        <div className={style.text}>
                             Рецепты
                         </div>
-                    </NavLink>
+                    </MyNavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink
-                        className={ ({isActive}) =>
-                            (isActive ? `${style.link} ${style.active}` : style.link)
-                        }
-                        to={ROUTE_CATEGORIES}
-                    >
-                        <div className={ style.logo }>
+                    <MyNavLink to={ROUTE_CATEGORIES}>
+                        <div className={style.logo}>
                             <IconBook/>
                         </div>
-                        <div className={ style.text }>
+                        <div className={style.text}>
                             Категории
                         </div>
-                    </NavLink>
+                    </MyNavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink
-                        className={ ({isActive}) =>
-                            (isActive ? `${style.link} ${style.active}` : style.link)
-                        }
-                        to={ROUTE_MAIN}
-                    >
-                        <div className={ style.logo }>
+                    <MyNavLink to={ROUTE_MAIN}>
+                        <div className={style.logo}>
                             <IconPizza/>
                         </div>
-                        <div className={ style.text }>
+                        <div className={style.text}>
                             Ингредиенты
                         </div>
-                    </NavLink>
+                    </MyNavLink>
                 </li>
                 <li className={ style.item }>
-                    <NavLink
-                        className={ ({isActive}) =>
-                            (isActive ? `${style.link} ${style.active}` : style.link)
-                        }
-                        to={ROUTE_MAIN}
-                    >
-                        <div className={ style.logo }>
+                    <MyNavLink to={ROUTE_MAIN}>
+                        <div className={style.logo}>
                             <IconAddNew/>
-                        </div>&nbsp;
-                        <div className={ style.text }>
+                        </div>
+                        &nbsp;
+                        <div className={style.text}>
                             Новый рецепт
                         </div>
-                    </NavLink>
+                    </MyNavLink>
                 </li>
             </ul>
             <div className={ style.extendContainer }>
