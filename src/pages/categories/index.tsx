@@ -30,8 +30,7 @@ const categorySchema = array().of(object().shape({
 })).test({
     name: 'uniqueCategory',
     message: 'Названия категорий должны быть уникальны',
-    test: (categories: CategoryT[]) => {
-        debugger;
+    test: (categories: CategoryT[] | undefined) => {
         if (categories && categories?.length > 0) {
             let uniqCategories = new Set();
             for (let i=0; i < categories.length; i++) {
