@@ -2,7 +2,7 @@ import {NavLink, NavLinkProps} from "react-router";
 import {useState} from "react";
 import classNames from "classnames";
 
-import {ROUTE_CATEGORIES, ROUTE_MAIN} from "../../shared/router";
+import {ROUTE_CATEGORIES, ROUTE_INGREDIENTS, ROUTE_MAIN} from "../../shared/router";
 import {IconAddNew, IconBook, IconFork, IconPizza} from "../../shared/ui/icons";
 import ButtonExtend from "../../shared/ui/button-extend";
 
@@ -53,7 +53,7 @@ function Nav ({ isShow }: NavT) {
                     </MyNavLink>
                 </li>
                 <li className={ style.item }>
-                    <MyNavLink to={ROUTE_MAIN}>
+                    <MyNavLink to={ROUTE_INGREDIENTS}>
                         <div className={style.logo}>
                             <IconPizza/>
                         </div>

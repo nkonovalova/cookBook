@@ -11,7 +11,8 @@ import ErrorPage from "../pages/error-page";
 import ShowRecipe from "../pages/show-recipe";
 import Categories from "../pages/categories";
 import UIPage from "../pages/ui-page";
-import {ROUTE_CATEGORIES, ROUTE_RECIPE, ROUTE_UI} from "../shared/router";
+import Ingredients from "../pages/ingredients";
+import {ROUTE_CATEGORIES, ROUTE_INGREDIENTS, ROUTE_RECIPE, ROUTE_UI} from "../shared/router";
 
 import '../shared/ui/variables.css';
 
@@ -24,6 +25,7 @@ function App() {
                     <Route index element={<RecipeList/>} errorElement={<ErrorPage/>}/>
                     <Route path={ROUTE_RECIPE} element={<ShowRecipe/>}/>
                     <Route path={ROUTE_CATEGORIES} element={<Categories/>}/>
+                    <Route path={ROUTE_INGREDIENTS} element={<Ingredients/>}/>
                     <Route path={ROUTE_UI} element={<UIPage/>}/>
                 </Routes>
             </QueryClientProvider>

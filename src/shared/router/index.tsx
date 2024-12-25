@@ -1,4 +1,5 @@
 export const ROUTE_MAIN = '/';
 export const ROUTE_RECIPE = '/recipe/:recipeId';
 export const ROUTE_CATEGORIES = '/categories';
+export const ROUTE_INGREDIENTS = '/ingredients';
 export const ROUTE_UI = '/ui';

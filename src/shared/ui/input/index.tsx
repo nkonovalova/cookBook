@@ -23,8 +23,8 @@ function Input(props: InputT) {
     const [showStatus, setShowStatus] = useState(false);
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTouched(true);
         setValue(event.target.value);
-        // setTouched(true);
     };
     const onBlurHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value.trim());

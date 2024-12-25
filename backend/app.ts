@@ -3,7 +3,7 @@ import cors from "cors";
 
 import './loadEnviroments';
 import categories from "./routes/categories";
-import ingredients from "./routes/ingridients";
+import ingredients from "./routes/ingredients";
 
 import {CATEGORIES_URL, INGREDIENTS_URL} from "./shared/const";
 
